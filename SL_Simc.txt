@@ -83,7 +83,7 @@ actions.cooldown+=/incarnation,if=combo_points>=3
 # Try and not waste TF energy, but also just use it for zerk and incarns
 actions.cooldown+=/tigers_fury,if=energy.deficit>40|buff.bs_inc.up|(talent.predator.enabled&variable.shortest_ttd<3)
 # Might be wrong to use Smeld on Rake in very very niche situations, but very rarely
-actions.cooldown+=/shadowmeld,if=buff.tigers_fury.up&buff.bs_inc.down&combo_points<4&dot.rake.pmultiplier<1.6&energy>40&druid.rake.ticks_gained_on_refresh>spell_targets.swipe_cat*2-2&target.time_to_die>5
+actions.cooldown+=/shadowmeld,if=buff.tigers_fury.up&buff.bs_inc.down&combo_points<4&buff.sudden_ambush.down&dot.rake.pmultiplier<1.6&energy>40&druid.rake.ticks_gained_on_refresh>spell_targets.swipe_cat*2-2&target.time_to_die>5
 actions.cooldown+=/berserking,if=buff.tigers_fury.up|buff.bs_inc.up
 actions.cooldown+=/potion,if=buff.bs_inc.up
 actions.cooldown+=/ravenous_frenzy,if=buff.bs_inc.up|fight_remains<21
