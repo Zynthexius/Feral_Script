@@ -31,8 +31,8 @@ actions+=/skull_bash
 actions+=/pool_resource,for_next=1
 actions+=/savage_roar,if=buff.berserk.up&combo_points=2&(!buff.savage_roar.up|buff.savage_roar.remains<2)&cooldown.feral_frenzy.up
 actions+=/call_action_list,name=cooldown
-# Necrolord: Cast 3 or 4 combo point rips on single target outside of berserk or during berserk if feral frenzy is up OR apply a 5cp Rip when TF is up and will soon fall off.
-actions+=/rip,target_if=covenant.necrolord&(!talent.bloodtalons.enabled|buff.bloodtalons.up)&spell_targets.thrash_cat=1&(combo_points>2&refreshable&druid.rip.ticks_gained_on_refresh>variable.rip_ticks|combo_points=5&buff.tigers_fury.up&buff.tigers_fury.remains<3&druid.rip.ticks_gained_on_refresh>5)&(!buff.bs_inc.up|cooldown.bs_inc.up|(buff.bs_inc.up&cooldown.feral_frenzy.up))
+# Necrolord: Cast 3 or 4 combo point rips on single target outside of berserk                            or during berserk if feral frenzy is up OR apply a 5cp Rip when TF is up and will soon fall off.
+actions+=/rip,target_if=covenant.necrolord&(!talent.bloodtalons.enabled|buff.bloodtalons.up)&spell_targets.thrash_cat=1&!dot.rip.ticking&(combo_points=3|combo_points=4)&(!buff.berserk.up|!cooldown.feral_frenzy.up)
 actions+=/run_action_list,name=finisher,if=combo_points>=(5-variable.4cp_bite)
 actions+=/primal_wrath,if=druid.primal_wrath.ticks_gained_on_refresh>=20&combo_points>=2,line_cd=5
 # Multi-gcd stealth
@@ -97,9 +97,11 @@ actions.cooldown+=/kindred_spirits,if=buff.tigers_fury.up|(conduit.deep_allegian
 actions.cooldown+=/use_items
 
 actions.finisher=pool_resource,for_next=1
-actions.finisher+=/savage_roar,if=buff.savage_roar.remains<3
+#actions.finisher+=/savage_roar,if=buff.savage_roar.remains<3
 actions.finisher+=/primal_wrath,if=(druid.primal_wrath.ticks_gained_on_refresh>3*(spell_targets.primal_wrath+1)&spell_targets.primal_wrath>1)|spell_targets.primal_wrath>(3+1*talent.sabertooth.enabled)
 actions.finisher+=/rip,target_if=refreshable&druid.rip.ticks_gained_on_refresh>variable.rip_ticks&((buff.tigers_fury.up|cooldown.tigers_fury.remains>5)&(buff.bloodtalons.up|!talent.bloodtalons.enabled)&dot.rip.pmultiplier<=persistent_multiplier|!talent.sabertooth.enabled)
+#Necrolord specific rip to min/max buffed rip uptimes
+actions.finisher+=/rip,target_if=covenant.necrolord&(!talent.bloodtalons.enabled|buff.bloodtalons.up)&spell_targets.thrash_cat=1&druid.rip.ticks_gained_on_refresh>variable.rip_ticks&buff.tigers_fury.up&buff.tigers_fury.remains<4
 actions.finisher+=/savage_roar,if=buff.savage_roar.remains<(combo_points+1)*6*0.3
 actions.finisher+=/ferocious_bite,max_energy=1,target_if=max:time_to_die
 actions.finisher+=/ferocious_bite,target_if=max:time_to_die,if=buff.bs_inc.up&talent.soul_of_the_forest.enabled
