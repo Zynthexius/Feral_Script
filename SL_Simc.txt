@@ -25,7 +25,7 @@ actions+=/auto_attack,if=!buff.prowl.up&!buff.shadowmeld.up
 actions+=/variable,name=shortest_ttd,value=target.time_to_die
 actions+=/cycling_variable,name=shortest_ttd,op=min,value=target.time_to_die
 # One shot stealth
-actions+=/run_action_list,name=stealth,if=buff.shadowmeld.up|buff.prowl.up|buff.bs_inc.remains<2&buff.bs_inc.up&dot.rake.remains<18
+actions+=/run_action_list,name=stealth,if=buff.shadowmeld.up|buff.prowl.up
 actions+=/skull_bash
 actions+=/call_action_list,name=cooldown
 # Necrolord: Cast 3 or 4 combo point rips on single target outside of berserk or during berserk if feral frenzy is up OR apply a 5cp Rip when TF is up and will soon fall off.
@@ -39,7 +39,7 @@ actions+=/pool_resource,if=talent.bloodtalons.enabled&buff.bloodtalons.down&(ene
 actions+=/run_action_list,name=bloodtalons,if=talent.bloodtalons.enabled&buff.bloodtalons.down
 actions+=/ferocious_bite,target_if=max:target.time_to_die,if=buff.apex_predators_craving.up
 actions+=/pool_resource,for_next=1
-actions+=/rake,target_if=(refreshable|persistent_multiplier>dot.rake.pmultiplier&buff.sudden_ambush.down)&druid.rake.ticks_gained_on_refresh>spell_targets.swipe_cat*2-2
+actions+=/rake,target_if=(refreshable|persistent_multiplier>dot.rake.pmultiplier)&druid.rake.ticks_gained_on_refresh>spell_targets.swipe_cat*2-2
 actions+=/lunar_inspiration,target_if=(refreshable|persistent_multiplier>dot.lunar_inspiration.pmultiplier)&druid.lunar_inspiration.ticks_gained_on_refresh>spell_targets.swipe_cat*2-2
 actions+=/pool_resource,for_next=1
 actions+=/thrash_cat,target_if=refreshable&druid.thrash_cat.ticks_gained_on_refresh>(4+spell_targets.thrash_cat*4)%(1+mastery_value)-conduit.taste_for_blood.enabled-covenant.necrolord&(talent.bloodtalons.enabled|!buff.bs_inc.up&covenant.necrolord)
@@ -47,24 +47,24 @@ actions+=/pool_resource,for_next=1
 actions+=/brutal_slash,if=(raid_event.adds.in>(1+max_charges-charges_fractional)*recharge_time)&(spell_targets.brutal_slash*action.brutal_slash.damage%action.brutal_slash.cost)>(action.shred.damage%action.shred.cost)
 actions+=/swipe_cat,if=spell_targets.swipe_cat>1+buff.bs_inc.up*2
 actions+=/thrash_cat,if=spell_targets.thrash_cat>3
-actions+=/shred,if=buff.clearcasting.up&(buff.sudden_ambush.down&buff.shadowmeld.down|buff.bs_inc.up)
+actions+=/shred,if=buff.clearcasting.up
 actions+=/rake,target_if=buff.bs_inc.up&druid.rake.ticks_gained_on_refresh>2
 actions+=/call_action_list,name=filler
 
 actions.owlweave=starsurge,if=buff.heart_of_the_wild.up
 actions.owlweave+=/sunfire,line_cd=4*gcd
 actions.owlweave+=/moonfire,line_cd=4*gcd,if=buff.moonkin_form.up&(runeforge.cateye_curio|runeforge.draught_of_deep_focus)&spell_targets.thrash_cat<2&!talent.lunar_inspiration.enabled
-actions.owlweave+=/heart_of_the_wild,if=energy<30&dot.rip.remains>4.5&(cooldown.tigers_fury.remains>=6.5|runeforge.cateye_curio)&buff.clearcasting.stack<1&!buff.apex_predators_craving.up&!buff.bloodlust.up&!buff.bs_inc.up&(cooldown.convoke_the_spirits.remains>6.5|!covenant.night_fae)&(!covenant.necrolord|cooldown.adaptive_swarm.remains>=5|dot.adaptive_swarm_damage.remains>7) #&(!conduit.sudden_ambush.enabled|buff.sudden_ambush.down|dot.rake.pmultiplier>1.5&dot.rake.remains>6.5&buff.sudden_ambush.remains>6.5&buff.sudden_ambush.up)
-actions.owlweave+=/moonkin_form,if=energy<30&dot.rip.remains>4.5&(cooldown.tigers_fury.remains>=4.5|runeforge.cateye_curio)&buff.clearcasting.stack<1&!buff.apex_predators_craving.up&!buff.bloodlust.up&(!buff.bs_inc.up|covenant.necrolord&talent.savage_roar.enabled&buff.bs_inc.remains>6)&(cooldown.convoke_the_spirits.remains>6.5|!covenant.night_fae)&(!covenant.necrolord|cooldown.adaptive_swarm.remains>=5|dot.adaptive_swarm_damage.remains>7)&target.time_to_die>7&(!conduit.sudden_ambush.enabled|buff.sudden_ambush.down|dot.rake.pmultiplier>1.5&dot.rake.remains>5&buff.sudden_ambush.remains>5&buff.sudden_ambush.up)
+actions.owlweave+=/heart_of_the_wild,if=energy<30&dot.rip.remains>4.5&(cooldown.tigers_fury.remains>=6.5|runeforge.cateye_curio)&buff.clearcasting.stack<1&!buff.apex_predators_craving.up&!buff.bloodlust.up&!buff.bs_inc.up&(cooldown.convoke_the_spirits.remains>6.5|!covenant.night_fae)&(!covenant.necrolord|cooldown.adaptive_swarm.remains>=5|dot.adaptive_swarm_damage.remains>7)
+actions.owlweave+=/moonkin_form,if=energy<30&dot.rip.remains>4.5&(cooldown.tigers_fury.remains>=4.5|runeforge.cateye_curio)&buff.clearcasting.stack<1&!buff.apex_predators_craving.up&!buff.bloodlust.up&(!buff.bs_inc.up|covenant.necrolord&talent.savage_roar.enabled&buff.bs_inc.remains>6)&(cooldown.convoke_the_spirits.remains>6.5|!covenant.night_fae)&(!covenant.necrolord|cooldown.adaptive_swarm.remains>=5|dot.adaptive_swarm_damage.remains>7)&target.time_to_die>7
 
 # Rake needs roughly 50% of its length at a minimum to surpass shreds dpe
 actions.stealth=pool_resource,for_next=1
-actions.stealth+=/rake,target_if=(dot.rake.pmultiplier<1.5|refreshable)&druid.rake.ticks_gained_on_refresh>2|persistent_multiplier>dot.rake.pmultiplier&buff.bs_inc.up&spell_targets.thrash_cat<3|buff.bs_inc.remains<2&buff.bs_inc.up&dot.rake.remains<18|buff.bs_inc.down&buff.sudden_ambush.up&(buff.sudden_ambush.remains<3|combo_points=4)|buff.shadowmeld.up
+actions.stealth+=/rake,target_if=(dot.rake.pmultiplier<1.5|refreshable)&druid.rake.ticks_gained_on_refresh>2|persistent_multiplier>dot.rake.pmultiplier&buff.bs_inc.up&spell_targets.thrash_cat<3|buff.bs_inc.remains<1
 actions.stealth+=/lunar_inspiration,if=spell_targets.thrash_cat<3&(refreshable|persistent_multiplier>dot.lunar_inspiration.pmultiplier)&druid.lunar_inspiration.ticks_gained_on_refresh>5&(combo_points=4|dot.lunar_inspiration.remains<5|!dot.lunar_inspiration.ticking)
 # Brutal Slash is better than stealth Shred at 3 targets
 actions.stealth+=/brutal_slash,if=spell_targets.brutal_slash>2
 actions.stealth+=/pool_resource,for_next=1
-actions.stealth+=/shred,if=combo_points<4&spell_targets.thrash_cat<5&(buff.sudden_ambush.down|buff.bs_inc.up)
+actions.stealth+=/shred,if=combo_points<4&spell_targets.thrash_cat<5
 
 actions.bloodtalons=rake,target_if=(!ticking|(refreshable&persistent_multiplier>dot.rake.pmultiplier)|(active_bt_triggers=2&persistent_multiplier>dot.rake.pmultiplier)|(active_bt_triggers=2&refreshable))&buff.bt_rake.down&druid.rake.ticks_gained_on_refresh>=2
 actions.bloodtalons+=/lunar_inspiration,target_if=refreshable&buff.bt_moonfire.down
@@ -105,7 +105,4 @@ actions.filler=rake,target_if=variable.filler=1&dot.rake.pmultiplier<=persistent
 actions.filler+=/rake,if=variable.filler=2
 actions.filler+=/lunar_inspiration,if=variable.filler=3
 actions.filler+=/swipe,if=variable.filler=4
-actions.filler+=/thrash_cat,if=refreshable&buff.bs_inc.down&buff.sudden_ambush.up
-actions.filler+=/=pool_resource,for_next=1
-actions.filler+=/rake,if=buff.sudden_ambush.up&buff.bs_inc.down
 actions.filler+=/shred
