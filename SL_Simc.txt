@@ -27,10 +27,11 @@ actions+=/variable,name=shortest_ttd,value=target.time_to_die
 actions+=/cycling_variable,name=shortest_ttd,op=min,value=target.time_to_die
 # One shot stealth
 actions+=/run_action_list,name=stealth,if=buff.shadowmeld.up|buff.prowl.up
+actions+=/lunar_inspiration,target_if=!dot.lunar_inspiration.ticking&!buff.berserk.up
 actions+=/skull_bash
 # Roar before a FF during berserk because FF's bleed isn't buffed by SR, but initial hits with SR will scale the dot
 actions+=/pool_resource,for_next=1
-actions+=/savage_roar,if=buff.berserk.up&combo_points=2&(!buff.savage_roar.up|buff.savage_roar.remains<2)&cooldown.feral_frenzy.up
+actions+=/savage_roar,if=talent.feral_frenzy.enabled&cooldown.feral_frenzy.up&!buff.savage_roar.up&combo_points>1&dot.rake.ticking&(dot.lunar_inspiration.ticking|talent.lunar_inspiration.enabled)
 actions+=/call_action_list,name=cooldown
 # Necrolord: Cast 3 or 4 combo point rips on single target outside of berserk                            or during berserk if feral frenzy is up OR apply a 5cp Rip when TF is up and will soon fall off.
 actions+=/rip,target_if=covenant.necrolord&(!talent.bloodtalons.enabled|buff.bloodtalons.up)&spell_targets.thrash_cat=1&!dot.rip.ticking&(combo_points=3|combo_points=4)&(!buff.berserk.up|!cooldown.feral_frenzy.up)
@@ -63,7 +64,7 @@ actions.owlweave+=/moonkin_form,if=energy<30&dot.rip.remains>4.5&(cooldown.tiger
 
 # Rake needs roughly 50% of its length at a minimum to surpass shreds dpe
 actions.stealth=pool_resource,for_next=1
-actions.stealth+=/rake,target_if=(dot.rake.pmultiplier<1.5|refreshable)&druid.rake.ticks_gained_on_refresh>2|persistent_multiplier>dot.rake.pmultiplier&buff.bs_inc.up&spell_targets.thrash_cat<3|buff.bs_inc.remains<1
+actions.stealth+=/rake,target_if=(dot.rake.pmultiplier<1.5|refreshable)&druid.rake.ticks_gained_on_refresh>2|persistent_multiplier>dot.rake.pmultiplier&buff.bs_inc.up&spell_targets.thrash_cat<3&(!talent.lunar_inspiration.enabled|dot.lunar_inspiration.ticking&!dot.rake.ticking|dot.rake.ticking&dot.lunar_inspiration.ticking)|buff.bs_inc.remains<1
 actions.stealth+=/lunar_inspiration,if=spell_targets.thrash_cat<3&(refreshable|persistent_multiplier>dot.lunar_inspiration.pmultiplier)&druid.lunar_inspiration.ticks_gained_on_refresh>5&(combo_points=4|dot.lunar_inspiration.remains<5|!dot.lunar_inspiration.ticking)
 # Brutal Slash is better than stealth Shred at 3 targets
 actions.stealth+=/brutal_slash,if=spell_targets.brutal_slash>2
@@ -83,10 +84,10 @@ actions.cooldown=adaptive_swarm,target_if=((!dot.adaptive_swarm_damage.ticking|d
 actions.cooldown+=/feral_frenzy,target_if=max:target.time_to_die,if=combo_points<3&target.time_to_die>7&!cooldown.tigers_fury.up|fight_remains<8&fight_remains>2
 actions.cooldown+=/fleshcraft,if=(soulbind.pustule_eruption|soulbind.volatile_solvent)
 # TODO: Need to sync with with ravenous frenzy when we run frenzyband, or atleast check if its worth it
-actions.cooldown+=/berserk,if=combo_points>=3
+actions.cooldown+=/berserk,if=combo_points>=3|cooldown.feral_frenzy.up
 actions.cooldown+=/incarnation,if=combo_points>=3
-actions.cooldown+=/berserking,if=buff.tigers_fury.up|buff.bs_inc.up
 actions.cooldown+=/potion,if=buff.bs_inc.up
+actions.cooldown+=/berserking,if=buff.tigers_fury.up|buff.bs_inc.up
 actions.cooldown+=/ravenous_frenzy,if=buff.bs_inc.up|fight_remains<21
 # Try and not waste TF energy, but also just use it for zerk and incarns
 actions.cooldown+=/tigers_fury,if=energy.deficit>40|buff.bs_inc.up|(talent.predator.enabled&variable.shortest_ttd<3)
