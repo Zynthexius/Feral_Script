@@ -88,6 +88,9 @@ actions.cooldown+=/berserk,if=combo_points>=3|cooldown.feral_frenzy.up
 actions.cooldown+=/incarnation,if=combo_points>=3
 actions.cooldown+=/potion,if=buff.bs_inc.up
 actions.cooldown+=/berserking,if=buff.tigers_fury.up|buff.bs_inc.up
+# Give priority to 9.1 on-use polearm
+actions.cooldown+=/use_item,name=jotungeirr_destinys_call,if=equipped.jotungeirr_destinys_call
+actions.cooldown+=/use_items
 actions.cooldown+=/ravenous_frenzy,if=buff.bs_inc.up|fight_remains<21
 # Try and not waste TF energy, but also just use it for zerk and incarns
 actions.cooldown+=/tigers_fury,if=energy.deficit>40|buff.bs_inc.up|(talent.predator.enabled&variable.shortest_ttd<3)
@@ -97,7 +100,6 @@ actions.cooldown+=/shadowmeld,if=buff.tigers_fury.up&buff.bs_inc.down&combo_poin
 actions.cooldown+=/convoke_the_spirits,if=(dot.rip.remains>4&combo_points<3&dot.rake.ticking&energy.deficit>=20)|fight_remains<5
 # Maybe there should be more conditions on the conduit
 actions.cooldown+=/kindred_spirits,if=buff.tigers_fury.up|(conduit.deep_allegiance.enabled)
-actions.cooldown+=/use_items
 
 actions.finisher=primal_wrath,if=(druid.primal_wrath.ticks_gained_on_refresh>3*(spell_targets.primal_wrath+1)&spell_targets.primal_wrath>1)|spell_targets.primal_wrath>(3+1*talent.sabertooth.enabled)
 actions.finisher+=/rip,target_if=refreshable&druid.rip.ticks_gained_on_refresh>variable.rip_ticks&((buff.tigers_fury.up|cooldown.tigers_fury.remains>5)&(buff.bloodtalons.up|!talent.bloodtalons.enabled)&dot.rip.pmultiplier<=persistent_multiplier|!talent.sabertooth.enabled)
