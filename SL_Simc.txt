@@ -14,7 +14,7 @@ actions.precombat+=/prowl
 
 # Todo:
 #   Delay Logic for Berserk & Potions
-#   SR before 5 cps when it drops
+#   Delay Sudden Ambush Rakes if one is already ticking, without losing dps.
 #   HotW convoke
 
 actions=call_action_list,name=owlweave,if=druid.owlweave_cat
@@ -33,7 +33,7 @@ actions+=/skull_bash
 actions+=/pool_resource,for_next=1
 actions+=/savage_roar,if=talent.feral_frenzy.enabled&cooldown.feral_frenzy.up&!buff.savage_roar.up&combo_points>1&dot.rake.ticking&(dot.lunar_inspiration.ticking|talent.lunar_inspiration.enabled)
 actions+=/call_action_list,name=cooldown
-# Necrolord: Cast 3 or 4 combo point rips on single target outside of berserk                            or during berserk if feral frenzy is up OR apply a 5cp Rip when TF is up and will soon fall off.
+# Necrolord: Cast 3 or 4 combo point rips on single target outside of berserk
 actions+=/rip,target_if=covenant.necrolord&(!talent.bloodtalons.enabled|buff.bloodtalons.up)&spell_targets.thrash_cat=1&!dot.rip.ticking&(combo_points=3|combo_points=4)&(!buff.berserk.up|!cooldown.feral_frenzy.up)
 actions+=/run_action_list,name=finisher,if=combo_points>=(5-variable.4cp_bite)
 actions+=/primal_wrath,if=druid.primal_wrath.ticks_gained_on_refresh>=20&combo_points>=2,line_cd=5
